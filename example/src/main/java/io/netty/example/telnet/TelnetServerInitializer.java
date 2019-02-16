@@ -48,13 +48,14 @@ public class TelnetServerInitializer extends ChannelInitializer<SocketChannel> {
             pipeline.addLast(sslCtx.newHandler(ch.alloc()));
         }
 
-        // Add the text line codec combination first,
+        // 添加帧限定符来防止粘包现象
         pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-        // the encoder and decoder are static as these are sharable
+
+        // 解码和编码，应和客户端一致
         pipeline.addLast(DECODER);
         pipeline.addLast(ENCODER);
 
-        // and then business logic.
+        // 业务逻辑实现类
         pipeline.addLast(SERVER_HANDLER);
     }
 }
