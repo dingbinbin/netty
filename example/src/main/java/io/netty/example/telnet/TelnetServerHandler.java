@@ -30,14 +30,21 @@ import java.util.Date;
 @Sharable
 public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
 
+    /**
+     * 建立连接时，发送一条庆祝信息
+     * @param ctx
+     * @throws Exception
+     */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        // Send greeting for a new connection.
+
+        // 为新连接发送庆祝
         ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
         ctx.write("It is " + new Date() + " now.\r\n");
         ctx.flush();
     }
 
+    //业务逻辑处理
     @Override
     public void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
         // Generate and write a response.
@@ -68,6 +75,7 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
         ctx.flush();
     }
 
+    //异常处理
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
